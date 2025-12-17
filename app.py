@@ -10,7 +10,7 @@ app.secret_key = '987dg239476fgywiuen'
 
 DATABASE = 'database.db'
 
-DOC_FOLDER = os.path.join('images')
+DOC_FOLDER = os.path.join('static', 'images')
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
 app.config['UPLOAD_FOLDER'] = DOC_FOLDER
 os.makedirs(DOC_FOLDER, exist_ok=True)
