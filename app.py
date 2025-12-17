@@ -33,6 +33,16 @@ def init_db():
                      image TEXT NOT NULL
                      )
             ''')
+        
+        conn.execute('''
+            CREATE TABLE IF NOT EXISTS inventory (
+                     id INTEGER PRIMARY KEY AUTOINCREMENT,
+                     name TEXT NOT NULL,
+                     price REAL NOT NULL,
+                     stock INTEGER NOT NULL,
+                     image TEXT NOT NULL
+                     )
+            ''')
         conn.commit()
 
 # ------------------------------------------ #
@@ -102,6 +112,41 @@ def add_gift():
 @app.route('/countdown')
 def countdown():
     return render_template('countdown.html')
+
+# -- Route: Inventory (Stock)
+
+@app.route('/inventory')
+def inventory():
+
+    with sqlite3.connect(DATABASE) as conn:
+        items = conn.execute('SELECT * FROM inventory').fetchall()
+
+    return render_template('inventory.html', items=items)
+
+# -- Route: Add to Stock
+
+@app.route('add_stock', methods=['GET', 'POST'])
+def add_stock():
+
+    if request.method == 'POST':
+        name = request.form['name']
+        price = request.form['price']
+        stock = request.form['stock']
+        image = request.files.get('image')
+        image_filename = None
+
+        if image and allowed_file(image.filename):
+            filename = secure_filename(image.filename)
+            image_filename = f"{name}_{filename}"
+            image.save(os.path.join(app.config['UPLOAD_FOLDER'], image_filename))
+
+        with sqlite3.connect(DATABASE) as conn:
+            conn.execute('INSERT INTO inventory (name, price, stock, image) VALUES (?, ?, ?, ?)', (name, price, stock, image_filename))
+            conn.commit()
+
+        return redirect(url_for('inventory'))
+
+    return render_template('add_stock.html')
 
 if __name__ == '__main__':
     init_db()
