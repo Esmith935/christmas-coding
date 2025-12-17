@@ -1,5 +1,5 @@
 # imports
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, request, flash
 import sqlite3
 import os 
 
@@ -40,6 +40,21 @@ def index():
 
 @app.route('/agechecker', methods=["GET", "POST"])
 def agechecker():
+    result = None
+    if request.method == "POST":
+        age = request.form.get("age")
+        try:
+            age = int(age)
+            if age < 0:
+                result = "Please enter a valid age."
+            elif age < 18:
+                result = "You are a sweatshop worker."
+            else:
+                result = "You are a Santa's Helper."
+        except ValueError:
+            result = "Please enter a valid number."
+
+        return render_template('agechecker.html', result=result)
     return render_template('agechecker.html')
 
 # -- Route: Gift List
