@@ -2,70 +2,198 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Countdown</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Christmas Countdown</title>
+    
+    <style>
+        /* --- PAGE LAYOUT --- */
+        body {
+            /* Background Image */
+            background-image: url("{{ url_for('static', filename='images/jolly-eva.jpeg') }}");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            
+            /* Center */
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; 
+            align-items: center;
+            overflow: hidden;
+            font-family: 'Shippori Mincho B1', serif;
+        }
 
+       
+        /* Forces the nav bar to the top */
+        .topnav {
+            position: absolute;
+            top: 0;
+            width: 100%;
+        }
+
+        /* --- COUNTDOWN STYLES --- */
+        .eva-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* High Contrast Box */
+            background-color: #000; 
+            padding: 40px 60px;
+            border: 4px solid #fff;
+            box-shadow: 10px 10px 0px rgba(0,0,0,0.8);
+            color: white;
+            
+            
+            transform: scaleX(0.8); 
+            z-index: 10; 
+        }
+
+        .title-group {
+            text-align: center;
+            border-bottom: 2px solid white;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            width: 100%;
+        }
+
+        .main-title {
+            font-family: 'Shippori Mincho B1', serif;
+            font-size: 4rem;
+            font-weight: 800;
+            margin: 0;
+            line-height: 0.9;
+            letter-spacing: -2px;
+        }
+
+        .sub-title {
+            font-family: 'Shippori Mincho B1', serif;
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin: 5px 0 0 0;
+            letter-spacing: 5px;
+            text-align: right; 
+        }
+
+        .timer-display {
+            display: flex;
+            justify-content: center;
+            align-items: baseline;
+        }
+
+        .timer-block {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 15px;
+        }
+
+        .timer-block span:first-child {
+            font-size: 5rem;
+            font-weight: 800;
+            line-height: 1;
+        }
+
+        .timer-label {
+            font-family: sans-serif;
+            font-size: 0.8rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            margin-top: 5px;
+            transform: scaleX(1.25);
+        }
+
+        .colon {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-top: -10px;
+        }
+
+        .timer-complete {
+            font-size: 4rem;
+            text-align: center;
+            color: #ff0000;
+            font-weight: 800;
+            line-height: 1;
+        }
+    </style>
 </head>
-<style>
-    body {
-        background-image: url("{{ url_for('static', filename='images/jolly-eva.jpeg') }}");
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-        background-attachment: fixed;
-    }
-</style>
 <body>
-    <h1> Welcome to The countdown to Christmas</h1>
 
-    <!-- navigation bar -->
     <div class="topnav">
         <span class="brand">Christmas Coding</span>
         <a href="/">Home</a>
-        <div class="dropdown">
-            <button class="dropbtn">Settings</button>
-            <div class="dropdown-content">
-                <a href="#">Accessibility</a>
-                <a href="#" onclick="document.body.classList.add('dark-mode'); return false;">Dark Mode</a>
-                <a href="#" onclick="document.body.classList.remove('dark-mode'); return false;">Light Mode</a>
+    </div>
+
+    <div class="eva-container">
+        <div class="title-group">
+            <h1 class="main-title">COUNTDOWN TO<br>CHRISTMAS</h1>
+        </div>
+        
+        <div class="timer-display">
+            <div class="timer-block">
+                <span id="days">00</span>
+                <span class="timer-label">DAYS</span>
+            </div>
+            <span class="colon">:</span>
+            <div class="timer-block">
+                <span id="hours">00</span>
+                <span class="timer-label">HOURS</span>
+            </div>
+            <span class="colon">:</span>
+            <div class="timer-block">
+                <span id="minutes">00</span>
+                <span class="timer-label">MINUTES</span>
+            </div>
+            <span class="colon">:</span>
+            <div class="timer-block">
+                <span id="seconds">00</span>
+                <span class="timer-label">SECONDS</span>
             </div>
         </div>
     </div>
-    </div>
-    <div class="countdown-container">
-        <h2 id="countdown"></h2>
-    </div>  
 
- <div class ="script-container">
-        <script>
-            // Set the date we're counting down to
-            var countDownDate = new Date("Dec 25, 2025 00:00:00").getTime();
+    <script>
+        // --- JAVASCRIPT LOGIC ---
+        var countDownDate = new Date("Dec 25, 2025 00:00:00").getTime();
 
-            // Update the countdown every 1 second
-            var x = setInterval(function() {
-
-            // Get today's date and time
+        var x = setInterval(function() {
             var now = new Date().getTime();
-
-            // Find the distance between now and the countdown date
             var distance = countDownDate - now;
 
-            // Time calculations for days, hours, minutes and seconds
             var days = Math.floor(distance / (1000 * 60 * 60 * 24));
             var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            // Display the result in the element with id="countdown"
-            document.getElementById("countdown").innerHTML = days + "d " + hours + "h "
-            + minutes + "m " + seconds + "s ";
+            // Populate the specific elements
+            var elDays = document.getElementById("days");
+            var elHours = document.getElementById("hours");
+            var elMinutes = document.getElementById("minutes");
+            var elSeconds = document.getElementById("seconds");
 
-            // If the countdown is over, write some text 
+            // Safety check to ensure elements exist before updating
+            if (elDays && elHours && elMinutes && elSeconds) {
+                elDays.innerHTML = days < 10 ? "0" + days : days;
+                elHours.innerHTML = hours < 10 ? "0" + hours : hours;
+                elMinutes.innerHTML = minutes < 10 ? "0" + minutes : minutes;
+                elSeconds.innerHTML = seconds < 10 ? "0" + seconds : seconds;
+            }
+
+            // Mission Complete Logic
             if (distance < 0) {
                 clearInterval(x);
-                document.getElementById("countdown").innerHTML = "Merry Christmas!";
+                var display = document.querySelector(".timer-display");
+                if(display) {
+                    display.innerHTML = "<span class='timer-complete'>MERRY<br>CHRISTMAS</span>";
+                }
             }
         }, 1000);
-        </script>
+    </script>
 </body>
 </html>
