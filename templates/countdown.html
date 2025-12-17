@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown</title>
+
+</head>
+<body>
+    <h1> Welcome to The countdown to Christmas</h1>
+
+    <!-- navigation bar -->
+    <div class="topnav">
+        <span class="brand">Christmas Coding</span>
+        <a href="/">Home</a>
+        <div class="dropdown">
+            <button class="dropbtn">Settings</button>
+            <div class="dropdown-content">
+                <a href="#">Accessibility</a>
+                <a href="#" onclick="document.body.classList.add('dark-mode'); return false;">Dark Mode</a>
+                <a href="#" onclick="document.body.classList.remove('dark-mode'); return false;">Light Mode</a>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="countdown-container">
+        <h2 id="countdown"></h2>
+    </div>  
+
+ <div class ="script-container">
+        <script>
+            // Set the date we're counting down to
+            var countDownDate = new Date("Dec 25, 2025 00:00:00").getTime();
+
+            // Update the countdown every 1 second
+            var x = setInterval(function() {
+
+            // Get today's date and time
+            var now = new Date().getTime();
+
+            // Find the distance between now and the countdown date
+            var distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result in the element with id="countdown"
+            document.getElementById("countdown").innerHTML = days + "d " + hours + "h "
+            + minutes + "m " + seconds + "s ";
+
+            // If the countdown is over, write some text 
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("countdown").innerHTML = "Merry Christmas!";
+            }
+        }, 1000);
+        </script>
+</body>
+</html>

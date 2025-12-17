@@ -66,7 +66,10 @@ def gift_lift():
         gifts = conn.execute('SELECT * FROM gifts').fetchall()
 
     return render_template('gift_list.html', gifts=gifts)
-    
+
+@app.route('/countdown')
+def countdown():
+    return render_template('countdown.html')
 
 if __name__ == '__main__':
     init_db()
