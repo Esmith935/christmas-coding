@@ -125,7 +125,7 @@ def inventory():
 
 # -- Route: Add to Stock
 
-@app.route('add_stock', methods=['GET', 'POST'])
+@app.route('/add_stock', methods=['GET', 'POST'])
 def add_stock():
 
     if request.method == 'POST':

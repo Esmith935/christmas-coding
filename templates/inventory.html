@@ -29,7 +29,7 @@
     {% for item in items %}
     <li>
         {{item[1]}} | {{item[2]}} | {{item[3]}}
-        <img src="{{ url_for('static', filename='images/' + (item[3] if item[3] else 'othercat.gif')) }}" alt="Avatar" width="50" height="50" style="vertical-align: middle ; border-radius: 50%;"></img>
+        <img src="{{ url_for('static', filename='images/' + (item[4] if item[4] else 'othercat.gif')) }}" alt="Avatar" width="50" height="50" style="vertical-align: middle ; border-radius: 50%;"></img>
     </li>
     {% endfor %}
     <a href="{{ url_for('add_stock') }}">Add item</a>
