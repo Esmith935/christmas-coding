@@ -62,8 +62,12 @@ def agechecker():
 @app.route('/gift_list')
 def gift_lift():
 
-    return render_template('gift_list.html')
+    with sqlite3.connect(DATABASE) as conn:
+        gifts = conn.execute('SELECT * FROM gifts').fetchall()
+
+    return render_template('gift_list.html', gifts=gifts)
     
 
 if __name__ == '__main__':
+    init_db()
     app.run(debug = True)

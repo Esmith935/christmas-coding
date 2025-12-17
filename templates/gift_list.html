@@ -8,7 +8,7 @@
 
 </head>
 <body>
-    <h1> Welcome to Santa's Age Checker </h1>
+    <h1> Welcome to Santa's Gift List </h1>
 
     <!-- navigation bar -->
     <div class="topnav">
@@ -24,4 +24,26 @@
     </div>
     </div>
 
-    
+    <!-- Gifts Table -->
+
+    <table border="1" id="giftsTable">
+        <thead>
+            <tr>
+                <th onclick="sortTable(0)">ID</th>
+                <th onclick="sortTable(1)">Name</th>
+                <th onclick="sortTable(2)">Price</th>
+                <th onclick="sortTable(3)">Image</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for gift in gifts %}
+            <tr>
+                <td>{{ gift[0] }}</td>
+                <td>{{ gift[2] }}</td>
+                <td>{{ gift[3] }}</td>
+                <td>{{ gift[4] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
