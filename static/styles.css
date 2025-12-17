@@ -199,3 +199,9 @@ body.dark-mode .dropdown-content a {
 body.dark-mode .dropdown-content a:hover {
     background-color: #333;
 }
+
+.form-container {
+    padding: 30px;
+    border: 2px solid #ccc;
+    background-color: #f9f9f9;
+}
