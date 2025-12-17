@@ -13,7 +13,6 @@
     <!-- navigation bar -->
     <div class="topnav">
         <span class="brand">Christmas Coding</span>
-        <a href="/">Home</a>
         <div class="dropdown">
             <button class="dropbtn">Settings</button>
             <div class="dropdown-content">
@@ -26,12 +25,17 @@
     </div>
 
     <!-- Gifts Table -->
-    {% for gift in gifts %}
-    <li>
-        {{gift[1]}} | {{gift[2]}}
-        <img src="{{ url_for('static', filename='images/' + (gift[3] if gift[3] else 'othercat.gif')) }}" alt="Avatar" width="50" height="50" style="vertical-align: middle ; border-radius: 50%;"></img>
-    </li>
-    {% endfor %}
-    <a href="{{ url_for('add_gift') }}">Add gift</a>
-    
+
+    <form method="POST">
+        <label for="name">Name</label><br>
+        <input type="text" name="name" required><br><br>
+
+        <label for="price">Price</label><br>
+        <input type="text" name="price" required><br><br>
+
+        <label for="image">Image (Optional)</label><br>
+        <input type="file" name="image" accept="image/*"><br><br>
+
+        <button type="submit">Add Gift</button>
+    </form>>
 </body>
